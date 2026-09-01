@@ -1,6 +1,6 @@
 <?php
-\$page_title = "关键词管理";
-\$page_subtitle = "空格分隔多词组 · 不区分顺序 · 同时作用于已开启的站点";
+$page_title = "关键词管理";
+$page_subtitle = "空格分隔多词组 · 不区分顺序 · 同时作用于已开启的站点";
 ?>
 <div class="card">
   <div class="card-head" style="flex-wrap:wrap;gap:12px">
