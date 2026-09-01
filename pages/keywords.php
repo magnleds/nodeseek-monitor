@@ -10,7 +10,7 @@ $page_subtitle = "空格分隔多词组 · 不区分顺序 · 同时作用于已
     </div>
     <div class="keyword-search">
       <input class="input" id="q" placeholder="🔍 搜索关键词…" oninput="load(1)" aria-label="搜索关键词">
-      <span class="tag tag-gray">已排序 A → Z</span>
+      <span class="tag tag-orange" id="keyword-count">共 0 条</span><span class="tag tag-gray">已排序 A → Z</span>
     </div>
   </div>
   <div class="keyword-cloud" id="keyword-cloud"><div class="keyword-empty">加载中…</div></div>
@@ -32,6 +32,7 @@ async function load(p=1){
   try{
     const r=await App.api({action:"list_keywords", q, page:p, size:50});
     const cloud=document.getElementById("keyword-cloud");
+    document.getElementById("keyword-count").textContent="共 "+r.total+" 条";
     document.getElementById("page-info").textContent = r.total ? "第 "+r.page+" 页 / 共 "+Math.ceil(r.total/r.size)+" 页" : "暂无关键词";
     if(!r.rows.length){ cloud.innerHTML="<div class=\"keyword-empty\">暂无匹配关键词</div>"; return; }
     cloud.innerHTML=r.rows.map(row=>{
