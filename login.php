@@ -2,7 +2,7 @@
 /**
  * 登录页
  * 不带品牌 logo/名称，纯账号密码框（按 /规范 第 2、4 节）
- * 密码用 password_verify 校验（config 的 users.password 存 password_hash 生成的 hash）
+ * 认证方式与现有内部工具保持一致：标准账号 + .env 中的原始密码
  */
 define('APP_ENTRY', true);
 require __DIR__ . '/db.php';
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $p = $_POST['password'] ?? '';
     $ok = false;
     foreach ($CONFIG['users'] as $row) {
-        if (hash_equals($row['username'], $u) && password_verify($p, $row['password'])) {
+        if (hash_equals($row['username'], $u) && hash_equals($row['password'], $p)) {
             $ok = true; break;
         }
     }

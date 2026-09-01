@@ -21,7 +21,7 @@ if ($action === 'login') {
     global $CONFIG;
     $ok = false;
     foreach ($CONFIG['users'] as $row) {
-        if (hash_equals($row['username'], $u) && password_verify($p, $row['password'])) {
+        if (hash_equals($row['username'], $u) && hash_equals($row['password'], $p)) {
             $ok = true; break;
         }
     }

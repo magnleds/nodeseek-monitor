@@ -14,12 +14,10 @@ return [
     'db_path'       => __DIR__ . '/data/app.db',
 
     // ====== 登录 ======
-    // 账号 + 密码 hash（多账号用数组）。
-    // ⚠️ password 必须存 password_hash() 生成的 hash，登录用 password_verify() 校验。
-    //    生成方法：在项目目录跑一次 php -r "echo password_hash('你的密码', PASSWORD_DEFAULT);"
-    //    把输出的 hash 字符串填进 .env 的 APP_ADMIN_PASS（值放 .env，不入库）
+    // 账号 + 原始密码（多账号用数组）。这是现有内部工具的统一认证方式。
+    // 密码只放在服务器 .env，不入库、不输出给前端。
     'users' => [
-        ['username' => $ENV['APP_ADMIN_USER'] ?? 'admin', 'password' => $ENV['APP_ADMIN_PASS'] ?? ''],
+        ['username' => $ENV['APP_ADMIN_USER'] ?? 'Deffipy', 'password' => $ENV['APP_ADMIN_PASS'] ?? ''],
     ],
 
     // Session 有效期（秒），0 = 永久
