@@ -846,7 +846,7 @@ textarea.input { height: auto; padding: var(--s-2) var(--s-3); resize: vertical;
 .keyword-search { width:100%; justify-content:space-between; }
 .keyword-search .input { flex:1; max-width:360px; }
 .keyword-cloud { display:flex; flex-wrap:wrap; align-items:center; gap:var(--s-3); padding:var(--s-6); min-height:180px; border-top:1px solid var(--border); }
-.keyword-chip { display:inline-flex; align-items:center; gap:var(--s-2); max-width:100%; padding:var(--s-2) var(--s-2) var(--s-2) var(--s-3); border:1px solid var(--border-strong); border-radius:var(--r-full); background:var(--bg-tint); color:var(--text); font-size:var(--t-sm); line-height:1.35; }
+.keyword-chip { display:inline-flex; align-items:center; gap:var(--s-2); max-width:100%; padding:var(--s-2) var(--s-2) var(--s-2) var(--s-3); border:1px solid var(--border-strong); border-radius:var(--r-full); background:var(--bg-tint); color:var(--text); font-size:var(--t-md); line-height:1.4; }
 .keyword-remove { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border:0; border-radius:var(--r-full); background:var(--border); color:var(--text-2); cursor:pointer; font-size:16px; line-height:1; }
 .keyword-remove:hover { background:var(--danger); color:#fff; }
 .keyword-empty { width:100%; text-align:center; color:var(--text-3); }
