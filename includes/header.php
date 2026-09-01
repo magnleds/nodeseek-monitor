@@ -29,8 +29,8 @@ $ACTIVE = $ACTIVE ?? '';
       <a class="nav-item<?= $ACTIVE==='dashboard'?' active':'' ?>" href="?p=dashboard">
         <span class="nav-icon">▦</span><span>仪表盘</span>
       </a>
-      <a class="nav-item<?= $ACTIVE==='items'?' active':'' ?>" href="?p=items">
-        <span class="nav-icon">▤</span><span>数据列表</span>
+      <a class="nav-item<?= $ACTIVE==='keywords'?' active':'' ?>" href="?p=keywords">
+        <span class="nav-icon">🔍</span><span>关键词</span>
       </a>
       <a class="nav-item<?= $ACTIVE==='settings'?' active':'' ?>" href="?p=settings">
         <span class="nav-icon">⚙</span><span>设置</span>
