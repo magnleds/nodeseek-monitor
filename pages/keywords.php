@@ -33,6 +33,11 @@ $page_subtitle = "空格分隔多词组 · 不区分顺序 · 同时作用于已
   </form>
 </dialog>
 
+<dialog class="modal" id="delete-modal">
+  <div class="card-head"><div class="card-title">确认删除</div><button type="button" class="icon-btn" onclick="this.closest('dialog').close()">✕</button></div>
+  <div class="card-body"><p class="muted">确定要删除这条关键词规则吗？删除后将立即同步到监控脚本。</p></div>
+  <div class="card-foot" style="justify-content:flex-end;gap:8px;display:flex"><button type="button" class="btn btn-ghost" onclick="this.closest('dialog').close()">取消</button><button type="button" class="btn btn-danger" onclick="del()">删除</button></div>
+</dialog>
 <script>
 let curPage=1;
 async function load(p=1){
@@ -46,7 +51,7 @@ async function load(p=1){
   tb.innerHTML = r.rows.map(row=>{
     const parts=row.text.split(" ").filter(Boolean).map(p=>"<span class=\'tag tag-blue\'>"+esc(p)+"</span>").join("");
     const d=new Date(row.created_at*1000).toLocaleString();
-    return "<tr><td><div style='display:flex;gap:6px;flex-wrap:wrap'>"+parts+"</div></td><td style='color:var(--text-muted);font-size:13px'>"+d+"</td><td><button class=\'btn btn-ghost btn-sm\' onclick=\'del("+row.id+")\'>删除</button></td></tr>";
+    return "<tr><td><div class='keyword-line'>"+parts+"</div></td><td style='color:var(--text-muted);font-size:13px'>"+d+"</td><td><button class=\'btn btn-ghost btn-sm\' onclick=\'openDelete("+row.id+")\'>删除</button></td></tr>";
   }).join("");
 }
 function openAdd(){ document.getElementById("new-text").value=""; document.getElementById("add-modal").showModal(); }
@@ -56,9 +61,12 @@ async function doAdd(e){
   if(!text) return;
   try{ await App.api({action:"add_keyword", text}); App.toast("已添加","success"); e.target.closest("dialog").close(); load(1);}catch(err){ App.toast(err.message,"error"); }
 }
-async function del(id){
-  if(!confirm("确定删除？")) return;
-  try{ await App.api({action:"delete_keyword", id}); App.toast("已删除","success"); load(curPage);}catch(err){ App.toast(err.message,"error"); }
+let pendingDeleteId=0;
+function openDelete(id){ pendingDeleteId=id; document.getElementById("delete-modal").showModal(); }
+async function del(){
+  const id=pendingDeleteId;
+  document.getElementById("delete-modal").close();
+  try{ await App.api({action:"delete_keyword", id}); App.toast("已删除","success"); load(curPage); }catch(err){ App.toast(err.message,"error"); }
 }
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 window.addEventListener("load",()=>load(1));

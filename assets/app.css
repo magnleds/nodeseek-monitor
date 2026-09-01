@@ -641,6 +641,8 @@ textarea.input { height: auto; padding: var(--s-2) var(--s-3); resize: vertical;
   color: var(--text-2);
 }
 .tag-green  { background: rgba(16,185,129,.12); color: #047857; }
+.keyword-line { display:flex; flex-wrap:nowrap; gap:6px; overflow-x:auto; white-space:nowrap; padding:2px 0; }
+.keyword-line .tag-blue { background:var(--accent-bg); color:var(--text); border:1px solid var(--accent); }
 .tag-blue   { background: rgba(59,130,246,.12); color: #1D4ED8; }
 .tag-orange { background: var(--accent-bg);    color: var(--accent-strong); }
 .tag-red    { background: rgba(239,68,68,.12);  color: #B91C1C; }
