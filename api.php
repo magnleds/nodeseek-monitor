@@ -119,7 +119,7 @@ if ($action === "list_keywords") {
     $stmt->execute($args);
     $total = (int)$stmt->fetchColumn();
     $offset = ($page-1)*$size;
-    $stmt = db()->prepare("SELECT * FROM keywords $where ORDER BY id DESC LIMIT $size OFFSET $offset");
+    $stmt = db()->prepare("SELECT * FROM keywords $where ORDER BY text COLLATE NOCASE ASC LIMIT $size OFFSET $offset");
     $stmt->execute($args);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ok(["rows"=>$rows,"total"=>$total,"page"=>$page,"size"=>$size]);
