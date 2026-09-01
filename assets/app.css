@@ -852,3 +852,5 @@ textarea.input { height: auto; padding: var(--s-2) var(--s-3); resize: vertical;
 .keyword-empty { width:100%; text-align:center; color:var(--text-3); }
 .keyword-modal-actions { display:flex; justify-content:flex-end; gap:var(--s-2); }
 @media (max-width:600px) { .keyword-add, .keyword-search { align-items:stretch; } .keyword-search { flex-direction:column; } .keyword-search .input { max-width:none; } .keyword-cloud { padding:var(--s-4); gap:var(--s-2); } }
+.keyword-terms { display:inline-flex; flex-wrap:nowrap; gap:var(--s-1); align-items:center; }
+.keyword-term { padding:2px 7px; border-radius:var(--r-sm); background:var(--accent-bg); color:var(--text); font-weight:600; }

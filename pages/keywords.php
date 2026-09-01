@@ -18,9 +18,9 @@ $page_subtitle = "空格分隔多词组 · 不区分顺序 · 同时作用于已
 </div>
 
 <dialog class="modal" id="delete-modal">
-  <div class="card-head"><div class="card-title">确认删除</div><button type="button" class="icon-btn" onclick="this.closest(\"dialog\").close()">✕</button></div>
+  <div class="card-head"><div class="card-title">确认删除</div><button type="button" class="icon-btn" onclick="this.closest('dialog').close()">✕</button></div>
   <div class="card-body"><p class="muted">确定要删除这条关键词规则吗？删除后将立即同步到监控脚本。</p></div>
-  <div class="card-foot keyword-modal-actions"><button type="button" class="btn btn-ghost" onclick="this.closest(\"dialog\").close()">取消</button><button type="button" class="btn btn-danger" onclick="del()">删除</button></div>
+  <div class="card-foot keyword-modal-actions"><button type="button" class="btn btn-ghost" onclick="this.closest('dialog').close()">取消</button><button type="button" class="btn btn-danger" onclick="del()">删除</button></div>
 </dialog>
 
 <script>
@@ -36,7 +36,8 @@ async function load(p=1){
     if(!r.rows.length){ cloud.innerHTML="<div class=\"keyword-empty\">暂无匹配关键词</div>"; return; }
     cloud.innerHTML=r.rows.map(row=>{
       const text=App.esc(row.text);
-      return "<span class=\"keyword-chip\"><span>"+text+"</span><button type=\"button\" class=\"keyword-remove\" aria-label=\"删除 "+text+"\" onclick=\"openDelete("+row.id+")\">×</button></span>";
+      const terms=row.text.trim().split(/\s+/).filter(Boolean).map(word=>"<span class=\"keyword-term\">"+App.esc(word)+"</span>").join("");
+      return "<span class=\"keyword-chip\"><span class=\"keyword-terms\">"+terms+"</span><button type=\"button\" class=\"keyword-remove\" aria-label=\"删除 "+text+"\" onclick=\"openDelete("+row.id+")\">×</button></span>";
     }).join("");
   }catch(e){ document.getElementById("keyword-cloud").innerHTML="<div class=\"keyword-empty\">加载失败："+App.esc(e.message)+"</div>"; }
 }
