@@ -61,5 +61,5 @@ async function del(id){
   try{ await App.api({action:"delete_keyword", id}); App.toast("已删除","success"); load(curPage);}catch(err){ App.toast(err.message,"error"); }
 }
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
-load(1);
+window.addEventListener("load",()=>load(1));
 </script>

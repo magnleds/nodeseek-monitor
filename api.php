@@ -14,6 +14,14 @@ function require_auth() {
     if (!token_check()) fail('未登录', 401);
 }
 
+if ($action === 'runtime_log') {
+    require_auth();
+    $path = __DIR__ . '/data/monitor.log';
+    $lines = is_file($path) ? file($path, FILE_IGNORE_NEW_LINES) : [];
+    $lines = array_slice($lines ?: [], -200);
+    ok(['lines' => $lines]);
+}
+
 // ====== 登录 / 登出 ======
 if ($action === 'login') {
     $u = input('username');

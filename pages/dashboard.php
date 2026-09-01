@@ -63,6 +63,14 @@ try {
 </div>
 
 <script>
+async function loadRuntimeLog(){
+  const box=document.getElementById("cron-log");
+  try{
+    const r=await App.api({action:"runtime_log"});
+    box.textContent=r.lines.length ? r.lines.join("\n") : "暂无运行日志";
+    box.scrollTop=box.scrollHeight;
+  }catch(e){ box.textContent="日志加载失败："+(e.message||"请求失败"); }
+}
 async function loadSettings(){
   try{
     const r = await App.api({action:"get_settings"});
@@ -83,5 +91,6 @@ async function toggle(site, on){
 }
 document.getElementById("sw-nodeseek").addEventListener("change", e=>toggle("nodeseek", e.target.checked));
 document.getElementById("sw-hostloc").addEventListener("change", e=>toggle("hostloc", e.target.checked));
-loadSettings();
+window.addEventListener("load",()=>{loadSettings();loadRuntimeLog();});
+loadRuntimeLog();
 </script>

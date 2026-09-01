@@ -23,7 +23,7 @@ $page = preg_replace('/[^a-z_]/', '', $_GET['p'] ?? 'dashboard');
 $file = __DIR__ . "/pages/$page.php";
 if (!is_file($file)) $file = __DIR__ . '/pages/dashboard.php';
 
-$page_title    = $page_title    ?? '页面';
+$page_title    = ['dashboard'=>'仪表盘', 'keywords'=>'关键词管理', 'settings'=>'设置'][$page] ?? '页面';
 $page_subtitle = $page_subtitle ?? '';
 $ACTIVE        = $page;
 

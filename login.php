@@ -6,7 +6,7 @@
  */
 define('APP_ENTRY', true);
 require __DIR__ . '/db.php';
-if (token_check()) { header('Location: ?p=dashboard'); exit; }
+if (token_check()) { header('Location: index.php?p=dashboard'); exit; }
 $err = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $u = trim($_POST['username'] ?? '');
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if ($ok) {
         token_create($u);
-        header('Location: ?p=dashboard');
+        header('Location: index.php?p=dashboard');
         exit;
     }
     $err = '账号或密码错误';
