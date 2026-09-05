@@ -56,20 +56,45 @@ try {
 </div>
 
 <div class="card" style="margin-top:var(--s-4)">
-  <div class="card-head"><div class="card-title">最近运行日志</div><a class="btn btn-ghost btn-sm" href="?p=keywords">管理关键词</a></div>
+  <div class="card-head">
+    <div><div class="card-title">最近运行</div><div class="card-sub">最新 10 次 · 运行时间 + 通知状态，点击展开详情</div></div>
+    <button class="btn btn-ghost btn-sm" onclick="loadRuns()">刷新</button>
+  </div>
   <div class="card-body">
-    <div id="cron-log" style="font-family:monospace;font-size:12px;background:var(--bg);padding:12px;border-radius:var(--r-sm);max-height:240px;overflow:auto;white-space:pre-wrap">加载中…</div>
+    <div id="runs-list" style="font-size:13px">加载中…</div>
   </div>
 </div>
 
 <script>
-async function loadRuntimeLog(){
-  const box=document.getElementById("cron-log");
+async function loadRuns(){
+  const box=document.getElementById("runs-list");
+  box.textContent="加载中…";
   try{
-    const r=await App.api({action:"runtime_log"});
-    box.textContent=r.lines.length ? r.lines.join("\n") : "暂无运行日志";
-    box.scrollTop=box.scrollHeight;
-  }catch(e){ box.textContent="日志加载失败："+(e.message||"请求失败"); }
+    const r=await App.api({action:"runtime_runs",limit:10});
+    if(!r.runs.length){box.textContent="暂无运行记录";return;}
+    box.innerHTML=r.runs.map((run,i)=>{
+      const dot=run.ok
+        ? '<span class="dot" style="background:#10B981"></span>'
+        : '<span class="dot" style="background:#EF4444"></span>';
+      const badge=!run.ok
+        ? '<span class="tag tag-red">异常</span>'
+        : run.notified>0
+          ? '<span class="tag tag-orange">🔔 '+run.notified+' 条通知</span>'
+          : '<span class="tag tag-gray">无通知</span>';
+      const titles=(run.titles||[]).map(t=>'<div style="color:var(--text-2);font-size:12px">🔔 '+App.esc(t)+'</div>').join("");
+      return '<div style="border-bottom:1px solid var(--bg-tint);padding:8px 0;cursor:pointer" onclick="toggleRun('+i+')">'
+        + '<div style="display:flex;align-items:center;gap:8px">'+dot
+        + '<span style="font-family:monospace">'+App.esc(run.time)+'</span>'+badge
+        + '<span style="margin-left:auto;color:var(--text-2);font-size:12px">详情 ▾</span></div>'
+        + titles
+        + '<pre id="run-detail-'+i+'" style="display:none;font-family:monospace;font-size:12px;background:var(--bg);padding:12px;border-radius:var(--r-sm);max-height:240px;overflow:auto;white-space:pre-wrap;margin-top:8px">'+App.esc(run.detail)+'</pre>'
+        + '</div>';
+    }).join("");
+  }catch(e){box.textContent="加载失败："+(e.message||"请求失败");}
+}
+function toggleRun(i){
+  const el=document.getElementById("run-detail-"+i);
+  if(el) el.style.display=el.style.display==="none"?"block":"none";
 }
 async function loadSettings(){
   try{
@@ -91,6 +116,6 @@ async function toggle(site, on){
 }
 document.getElementById("sw-nodeseek").addEventListener("change", e=>toggle("nodeseek", e.target.checked));
 document.getElementById("sw-hostloc").addEventListener("change", e=>toggle("hostloc", e.target.checked));
-window.addEventListener("load",()=>{loadSettings();loadRuntimeLog();});
-loadRuntimeLog();
+window.addEventListener("load",()=>{loadSettings();loadRuns();});
+loadRuns();
 </script>

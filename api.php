@@ -22,6 +22,14 @@ if ($action === 'runtime_log') {
     ok(['lines' => $lines]);
 }
 
+// 最近运行（提炼版）：最新 N 次运行时间 + 是否正常 + 有无通知，点击再看详情
+if ($action === 'runtime_runs') {
+    require_auth();
+    require_once __DIR__ . '/includes/monitor_runs.php';
+    $limit = (int)input('limit', 10);
+    ok(['runs' => parse_monitor_runs(__DIR__ . '/data/monitor.log', $limit)]);
+}
+
 // ====== 登录 / 登出 ======
 if ($action === 'login') {
     $u = input('username');
